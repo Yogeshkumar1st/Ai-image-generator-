@@ -430,7 +430,7 @@ pointer-events: none;
 </head>
 <body>
 <div class="header">
-<a href="https://www.youtube.com/@MiniMinds-TV-y4u" target="_blank" class="tg-btn">suscribe youtube channel ✈️</a>
+<a href="https://www.youtube.com/@MiniMinds-TV-y4u" target="_blank" rel="noopener noreferrer" class="tg-btn">suscribe youtube channel ✈️</a>
 <h1>Reo Rao AI</h1>
 <div class="tabs">
 <div class="tab active" onclick="switchTab('creator')">Creator</div>
@@ -441,7 +441,7 @@ pointer-events: none;
 <div id="creatorTab">
 <div class="prompt-box">
 <textarea id="prompt" rows="3" placeholder="What do you want to create
-today?"></textarea>
+today?" maxlength="1000"></textarea>
 <div class="controls">
 <select id="ratio">
 <option value="1:1">Square (1:1)</option>
@@ -622,7 +622,11 @@ emptyMsg.style.display = 'none';
 history.forEach(item => {
 const div = document.createElement('div');
 div.className = 'gallery-item';
-div.innerHTML = `<img src="${item.url}" onclick="viewImage('${item.url}')">`;
+const img = document.createElement('img');
+img.src = item.url;
+img.alt = item.prompt || 'AI Generated Art';
+img.onclick = () => viewImage(item.url);
+div.appendChild(img);
 galleryGrid.appendChild(div);
 });
 }
