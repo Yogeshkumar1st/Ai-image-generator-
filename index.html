@@ -430,7 +430,7 @@ pointer-events: none;
 </head>
 <body>
 <div class="header">
-<a href="https://www.youtube.com/@MiniMinds-TV-y4u" target="_blank" class="tg-btn">suscribe youtube channel ✈️</a>
+<a href="https://www.youtube.com/@MiniMinds-TV-y4u" target="_blank" rel="noopener noreferrer" class="tg-btn">suscribe youtube channel ✈️</a>
 <h1>Reo Rao AI</h1>
 <div class="tabs">
 <div class="tab active" onclick="switchTab('creator')">Creator</div>
@@ -622,7 +622,10 @@ emptyMsg.style.display = 'none';
 history.forEach(item => {
 const div = document.createElement('div');
 div.className = 'gallery-item';
-div.innerHTML = `<img src="${item.url}" onclick="viewImage('${item.url}')">`;
+const img = document.createElement('img');
+img.src = item.url;
+img.onclick = () => viewImage(item.url);
+div.appendChild(img);
 galleryGrid.appendChild(div);
 });
 }
