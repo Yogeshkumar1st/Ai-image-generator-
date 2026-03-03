@@ -1,0 +1,4 @@
+## 2024-05-18 - XSS via Unsafe DOM API in Gallery History
+**Vulnerability:** The gallery history view (`loadHistory` in `index.html`) read an image `url` from localStorage (`xhistory`) and dynamically injected it into the page using string concatenation and `innerHTML` (`div.innerHTML = \`<img src="${item.url}" ...>\``). If a malicious payload was injected into the `xhistory` localStorage variable, it could lead to Stored Cross-Site Scripting (XSS).
+**Learning:** Even internal data sources like `localStorage` should be treated as untrusted and potentially malicious. Using `innerHTML` with unsanitized data is a common XSS vector.
+**Prevention:** Avoid `innerHTML` for rendering user-supplied or user-controllable data. Always use safe DOM API methods such as `document.createElement`, `element.setAttribute`, and `element.appendChild` when rendering dynamic content.
