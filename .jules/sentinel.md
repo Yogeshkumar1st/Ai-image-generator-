@@ -1,0 +1,4 @@
+## 2024-05-24 - [Stored XSS via encodeURIComponent]
+**Vulnerability:** A Stored XSS vulnerability in the `loadHistory` function due to `encodeURIComponent` not encoding single quotes (`'`). This allowed a crafted payload inside `item.url` to break out of the inline `onclick` handler (`onclick="viewImage('${item.url}')"`).
+**Learning:** `encodeURIComponent` does not encode all characters (specifically `- _ . ! ~ * ' ( )`), making it unsafe to rely on alone when placing user input directly inside single-quoted HTML attributes or inline event handlers like `innerHTML = <img src="..." onclick="func('${url}')">`.
+**Prevention:** Avoid `innerHTML` entirely for dynamically rendering user-generated content. Always use safe DOM APIs like `document.createElement`, setting properties (e.g., `img.src = url`), and attaching event listeners programmatically (e.g., `img.onclick = () => func(url)`).
