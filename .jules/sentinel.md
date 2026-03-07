@@ -1,0 +1,4 @@
+## 2024-05-20 - encodeURIComponent does not encode single quotes
+**Vulnerability:** XSS via `encodeURIComponent` not escaping single quotes (`'`) and breaking out of attribute context.
+**Learning:** `encodeURIComponent` leaves single quotes intact (`%27` is not produced, rather it stays as `'`). If this unencoded string is interpolated inside a single-quoted HTML attribute (like `onclick='viewImage("${url}")'`) via string concatenation or template literals (like `innerHTML`), an attacker can inject a payload containing a single quote to break out of the string and execute arbitrary JavaScript.
+**Prevention:** Avoid building HTML from unsanitized strings using `innerHTML`. Always prefer standard DOM API methods (e.g., `document.createElement`, `.setAttribute()`, `.addEventListener()`) when handling user-provided data or URL components.
