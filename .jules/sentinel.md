@@ -1,0 +1,4 @@
+## 2024-05-18 - XSS Vector in encodeURIComponent Single Quote Handling
+**Vulnerability:** The application used `encodeURIComponent` to encode user prompts before storing them. These prompts were then interpolated into a single-quoted HTML attribute (`onclick='viewImage('${item.url}')'`) via `innerHTML`. Because `encodeURIComponent` does NOT escape single quotes (`'`), user input containing single quotes could break out of the attribute and inject malicious javascript.
+**Learning:** Standard JavaScript `encodeURIComponent` is not sufficient for sanitizing user input intended for HTML attribute interpolation, particularly when single quotes are involved.
+**Prevention:** Always use DOM API methods (e.g., `document.createElement`, `.src`, `.onclick`) rather than `innerHTML` to render user-generated content, completely avoiding string interpolation and escaping issues.
