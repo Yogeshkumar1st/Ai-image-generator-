@@ -1,0 +1,7 @@
+## 2024-05-18 - XSS via unescaped single quotes in encodeURIComponent
+
+**Vulnerability:** A Cross-Site Scripting (XSS) vulnerability was found in `index.html`. The application used `encodeURIComponent` to process a user prompt, generating an image URL. This URL was stored in `localStorage` and then later rendered in the DOM using string interpolation into `innerHTML`: `div.innerHTML = \`<img src="\${item.url}" onclick="viewImage('\${item.url}')">\`;`. Because `encodeURIComponent` does not encode single quotes (`'`), a user could craft a prompt containing single quotes, which would break out of the `onclick` attribute's single-quote enclosure and execute arbitrary JavaScript.
+
+**Learning:** `encodeURIComponent` is not a complete solution for escaping strings intended for use in HTML attributes, specifically when those attributes are enclosed in single quotes. Relying on string interpolation and `innerHTML` for rendering user-controlled data is inherently risky, even if the data appears to have been processed by functions like `encodeURIComponent`.
+
+**Prevention:** Always rely on safe DOM API methods (e.g., `document.createElement`, `element.setAttribute`, `element.appendChild`, assigning properties like `img.src` or `img.onclick` directly) instead of `innerHTML` when rendering user-generated or externally sourced content. The DOM API automatically handles escaping and prevents malicious code execution.
