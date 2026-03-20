@@ -622,7 +622,13 @@ emptyMsg.style.display = 'none';
 history.forEach(item => {
 const div = document.createElement('div');
 div.className = 'gallery-item';
-div.innerHTML = `<img src="${item.url}" onclick="viewImage('${item.url}')">`;
+// 🛡️ Sentinel: Use DOM API methods instead of innerHTML string interpolation
+// to prevent XSS. encodeURIComponent does not escape single quotes, which
+// can allow injecting malicious code if the user prompt contains unescaped single quotes.
+const img = document.createElement('img');
+img.src = item.url;
+img.onclick = () => viewImage(item.url);
+div.appendChild(img);
 galleryGrid.appendChild(div);
 });
 }
