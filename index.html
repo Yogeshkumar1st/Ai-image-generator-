@@ -622,7 +622,12 @@ emptyMsg.style.display = 'none';
 history.forEach(item => {
 const div = document.createElement('div');
 div.className = 'gallery-item';
-div.innerHTML = `<img src="${item.url}" onclick="viewImage('${item.url}')">`;
+// SEC-FIX: Use DOM API instead of innerHTML to prevent XSS.
+// encodeURIComponent does not escape single quotes, allowing breakout in onclick.
+const img = document.createElement('img');
+img.src = item.url;
+img.onclick = () => viewImage(item.url);
+div.appendChild(img);
 galleryGrid.appendChild(div);
 });
 }
