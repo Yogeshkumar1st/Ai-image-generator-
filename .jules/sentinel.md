@@ -1,0 +1,4 @@
+## 2024-05-24 - [CRITICAL] Prevent XSS from encodeURIComponent bypassing single quotes
+**Vulnerability:** XSS vulnerability in image loading from localStorage due to `encodeURIComponent` not escaping single quotes combined with `innerHTML` string interpolation.
+**Learning:** `encodeURIComponent` does not encode the single quote (`'`) character. Interpolating unescaped inputs (even URLs) into HTML attributes enclosed in single quotes creates an XSS vector.
+**Prevention:** Always use safe DOM APIs like `document.createElement`, `element.setAttribute`, or object properties (like `element.src` and `element.onclick`) rather than manually constructing HTML strings with `innerHTML`.
