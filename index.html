@@ -622,7 +622,12 @@ emptyMsg.style.display = 'none';
 history.forEach(item => {
 const div = document.createElement('div');
 div.className = 'gallery-item';
-div.innerHTML = `<img src="${item.url}" onclick="viewImage('${item.url}')">`;
+// 🛡️ Sentinel: Construct elements dynamically using DOM API to prevent XSS.
+// DO NOT use innerHTML with user-controlled data like item.url
+const img = document.createElement('img');
+img.src = item.url;
+img.onclick = function() { viewImage(item.url); };
+div.appendChild(img);
 galleryGrid.appendChild(div);
 });
 }
