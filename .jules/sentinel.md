@@ -1,0 +1,4 @@
+## 2024-04-12 - [Unescaped Single Quotes in URL Encoding]
+**Vulnerability:** The standard JavaScript `encodeURIComponent` function does not encode single quotes (`'`).
+**Learning:** When user input containing single quotes is encoded and then placed into a single-quoted HTML attribute (e.g., `<img src='${url}' onclick="viewImage('${url}')">`) via `innerHTML`, an attacker can break out of the string context and inject arbitrary JavaScript. This XSS vector was present because the Pollinations AI prompt was passed through `encodeURIComponent`, but the resulting URL was still vulnerable when interpolated into the DOM.
+**Prevention:** Always use safe DOM API methods (`document.createElement`, `setAttribute`, and property assignment for event listeners) when rendering user-generated content or URLs, rather than relying on string interpolation with `innerHTML`.
