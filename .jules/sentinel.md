@@ -1,0 +1,4 @@
+## 2026-04-21 - [High] Fix XSS Vulnerability in History Rendering
+**Vulnerability:** The application was vulnerable to Cross-Site Scripting (XSS) because it used `innerHTML` with unescaped user-controlled values (`item.url`) from `localStorage` in the `loadHistory` function.
+**Learning:** Using standard template literals with `innerHTML` doesn't provide enough protection, particularly when attributes like `onclick` are built with unescaped string values that can be broken out of using single quotes. Wait, standard `encodeURIComponent` does not encode single quotes ('), which is an issue.
+**Prevention:** Avoid `innerHTML` for rendering user content. Always use standard DOM API methods (e.g., `document.createElement`, `img.src = item.url`, `img.onclick = () => viewImage(item.url)`) which properly encode or safely attach user inputs to DOM elements without interpreting them as HTML.
