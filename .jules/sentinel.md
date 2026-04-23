@@ -1,0 +1,4 @@
+## 2024-05-24 - encodeURIComponent Single-Quote Bypass XSS
+**Vulnerability:** The application used `encodeURIComponent` to process a user prompt before embedding it directly into an image URL which was then used in an `innerHTML` assignment (`div.innerHTML = \`<img src="${item.url}" onclick="viewImage('${item.url}')">\``). `encodeURIComponent` does NOT encode single quotes (`'`). This allowed an attacker to inject arbitrary JS using payloads containing single quotes to escape the `onclick` handler string or the `src` attribute.
+**Learning:** `encodeURIComponent` is not a catch-all solution for rendering strings safely in HTML, especially when those strings are interpolated into single-quoted attributes.
+**Prevention:** Always use safe DOM API methods (e.g., `document.createElement`, `setAttribute`, or direct property assignment like `img.src = item.url`) to build and manipulate UI elements instead of interpolating untrusted data into HTML strings with `innerHTML`.
