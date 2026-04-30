@@ -1,0 +1,4 @@
+## 2025-04-30 - XSS via Unescaped Single Quotes in URL Encoding
+**Vulnerability:** A DOM-based XSS was possible because `encodeURIComponent` does not escape single quotes (`'`). These unescaped single quotes broke out of HTML attributes when injected via string interpolation (`innerHTML = \`<img src="${url}" onclick="viewImage('${url}')">\``).
+**Learning:** Even when a variable is URL-encoded, if the sink uses single quotes around an attribute value (or inside an inline event handler), an attacker can inject single quotes to break out of the attribute or function call context, executing arbitrary JavaScript.
+**Prevention:** Do not rely on `encodeURIComponent` to escape single quotes. Instead, use safe DOM API methods like `document.createElement()`, `setAttribute()`, and `addEventListener()` rather than `innerHTML` and inline event handlers to prevent XSS injection.
