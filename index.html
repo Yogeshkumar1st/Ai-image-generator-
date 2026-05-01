@@ -622,7 +622,13 @@ emptyMsg.style.display = 'none';
 history.forEach(item => {
 const div = document.createElement('div');
 div.className = 'gallery-item';
-div.innerHTML = `<img src="${item.url}" onclick="viewImage('${item.url}')">`;
+// 🛡️ Sentinel: Prevent DOM-based XSS by using safe DOM API methods
+// Standard JavaScript encodeURIComponent does not encode single quotes (').
+// Instead of innerHTML and string interpolation, build DOM elements manually.
+const img = document.createElement('img');
+img.src = item.url;
+img.onclick = () => viewImage(item.url);
+div.appendChild(img);
 galleryGrid.appendChild(div);
 });
 }
