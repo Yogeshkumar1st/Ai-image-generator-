@@ -1,0 +1,4 @@
+## 2024-05-02 - Unescaped Single Quotes in encodeURIComponent Create XSS Risk
+**Vulnerability:** XSS via localStorage parsing in gallery view.
+**Learning:** Standard JavaScript `encodeURIComponent` does NOT encode single quotes (`'`). This application relied on single quotes for inline event handlers (`onclick="viewImage('${item.url}')"`) leading to trivial attribute breakout XSS when users input a single quote in their generated image prompts, which is returned in the Pollinations AI URL.
+**Prevention:** Never use template literals or string interpolation for DOM attribute assignment when handling user-influenced data (like URLs derived from user prompts). Always use explicit DOM API methods (`document.createElement`, `element.src`, `element.onclick`) which implicitly sanitize attribute assignments.
