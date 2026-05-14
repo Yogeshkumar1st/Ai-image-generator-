@@ -1,0 +1,4 @@
+## 2024-05-14 - XSS via encodeURIComponent and innerHTML
+**Vulnerability:** A cross-site scripting (XSS) vulnerability exists because single quotes from user input are not escaped by `encodeURIComponent()`. When inserted via `innerHTML` into an unquoted or single-quoted HTML attribute (like `onclick="viewImage('...')"`) it breaks out and executes arbitrary JS.
+**Learning:** Never trust standard JS URL encoding (like `encodeURIComponent`) to safely escape all characters needed for HTML attribute contexts (especially single quotes).
+**Prevention:** Use standard DOM APIs (`document.createElement`, `setAttribute`) rather than `innerHTML` to bind user-controlled data to DOM elements and event handlers.
