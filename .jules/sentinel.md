@@ -1,0 +1,4 @@
+## 2024-05-23 - [High] Fix DOM-based XSS in loadHistory
+**Vulnerability:** DOM-based Cross-Site Scripting (XSS) via `innerHTML` and unescaped single/double quotes in user-provided image URLs (`item.url`) originating from `localStorage`.
+**Learning:** String interpolation of user input directly into HTML attributes using `innerHTML` creates significant attribute breakout vectors, especially when single/double quotes are not sanitized. Standard JavaScript DOM APIs (`document.createElement`) are inherently safer as they do not execute injected HTML tags or attributes.
+**Prevention:** Always use safe DOM manipulation methods (e.g., `document.createElement`, `textContent`, assigning properties directly) instead of `innerHTML` when rendering user-supplied or untrusted data, particularly URLs and inputs from local storage.
