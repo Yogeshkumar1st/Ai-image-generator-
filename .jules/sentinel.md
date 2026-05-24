@@ -1,0 +1,4 @@
+## 2024-05-14 - Stored XSS via `encodeURIComponent` limitation in unescaped HTML attributes
+**Vulnerability:** The application stored user-provided inputs in `localStorage` and later rendered them in the DOM via `innerHTML` string interpolation. While `encodeURIComponent` was used to construct URLs, it does not escape single quotes (`'`). These unescaped quotes broke out of HTML attribute contexts (`onclick="viewImage('...')"`), leading to Stored XSS.
+**Learning:** `encodeURIComponent` is designed for encoding URIs, not for preventing XSS in HTML attributes. Relying on it to sanitize data interpolated into single-quoted HTML attributes is fundamentally insecure.
+**Prevention:** Always use safe DOM APIs (e.g., `document.createElement`, `element.src`, `element.onclick`) when building UI elements dynamically from user-controlled data. Never use `innerHTML` for displaying untrusted variables.
