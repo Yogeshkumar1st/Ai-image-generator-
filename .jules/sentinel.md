@@ -1,0 +1,4 @@
+## 2024-05-25 - XSS via Single Quote in encodeURIComponent
+**Vulnerability:** Stored XSS via `encodeURIComponent` not escaping single quotes, leading to code execution when interpolated into single-quoted HTML attributes (`onclick='viewImage('${url}')'`).
+**Learning:** Standard JavaScript `encodeURIComponent` does not encode single quotes ('). This can create XSS vectors if these unescaped components are interpolated into single-quoted HTML attributes.
+**Prevention:** Always rely on DOM API methods (like `document.createElement`) instead of `innerHTML` when handling user-controlled data or URLs.
