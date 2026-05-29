@@ -1,0 +1,4 @@
+## 2024-05-29 - [XSS via unescaped single quotes in encodeURIComponent]
+**Vulnerability:** XSS vulnerability in `index.html` where an image URL containing single quotes was interpolated into an HTML string for `innerHTML`, specifically breaking out of the `onclick` handler attribute.
+**Learning:** `encodeURIComponent` does *not* encode single quotes (`'`). This can create XSS vectors if these unescaped components are interpolated into single-quoted HTML attributes.
+**Prevention:** Avoid `innerHTML` and string interpolation for DOM attributes. Always rely on DOM API methods (like `document.createElement` and property assignment `img.src`, `img.onclick`) to ensure proper escaping.
