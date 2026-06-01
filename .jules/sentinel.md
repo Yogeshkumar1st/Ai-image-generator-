@@ -1,0 +1,4 @@
+## 2024-06-01 - [Stored XSS in History Rendering]
+**Vulnerability:** The application was vulnerable to Stored DOM-based Cross-Site Scripting (XSS) in `index.html`. Unsanitized user data (generated image URLs) loaded from `localStorage` ('xhistory') were directly injected into the DOM using string interpolation within `div.innerHTML`.
+**Learning:** Even internal storage mechanisms like `localStorage` must be treated as potentially untrusted data sources, as other vulnerabilities on the same origin could poison the data. Rendering this data via `innerHTML` without proper HTML encoding or utilizing safe DOM APIs creates a straightforward vector for script execution.
+**Prevention:** Always use safe DOM manipulation methods, such as `document.createElement`, `.textContent`, or `.setAttribute`, to assemble UI elements dynamically instead of relying on `innerHTML` with string interpolation.
