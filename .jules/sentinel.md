@@ -1,0 +1,4 @@
+## 2026-06-04 - DOM XSS in Gallery History
+**Vulnerability:** A DOM-based Cross-Site Scripting (XSS) vulnerability was found in the `loadHistory` function where `innerHTML` was used to create gallery items. The URL from local storage, even if initially encoded with `encodeURIComponent`, was interpolated into an HTML string, allowing attackers to break out of the `src` attribute using single quotes.
+**Learning:** `encodeURIComponent` does not encode single quotes (`'`), meaning an attacker can still inject payloads if the attribute is enclosed in single quotes or if they break out of the event handler. Using string concatenation or template literals for DOM creation is highly error-prone.
+**Prevention:** Never use `innerHTML` with unsanitized or user-influenced data. Always use safe DOM APIs like `document.createElement` and direct property assignments (`element.src`, `element.onclick`) to ensure the browser handles encoding correctly.
