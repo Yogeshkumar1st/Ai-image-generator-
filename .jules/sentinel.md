@@ -1,0 +1,4 @@
+## 2024-06-09 - [DOM XSS in innerHTML URL Interpolation]
+**Vulnerability:** Cross-Site Scripting (XSS) via unescaped single quotes in image URLs dynamically rendered into the DOM using `innerHTML` in `index.html`.
+**Learning:** Even if data like a prompt is URL encoded when forming the initial URL, single quotes (`'`) are generally preserved by standard URL encoding functions. When the resulting URL was dynamically inserted into HTML attributes wrapped in single quotes (e.g., `onclick="viewImage('...')"`), it allowed breaking out of the attribute and executing arbitrary JavaScript.
+**Prevention:** Avoid using `innerHTML` to construct DOM elements dynamically, especially when interpolating variables containing URLs or text. Use safe DOM manipulation APIs like `document.createElement()`, assign properties directly (e.g., `img.src = url`), and attach event listeners using `addEventListener` or property assignment (e.g., `img.onclick = fn`).
