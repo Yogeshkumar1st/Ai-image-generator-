@@ -1,0 +1,4 @@
+## 2024-06-18 - XSS in Local Storage Rendering
+**Vulnerability:** DOM-based XSS via `innerHTML` when interpolating user-controlled URLs from `localStorage` into image `onclick` handlers in `index.html`.
+**Learning:** Even internal sources like `localStorage` should be considered untrusted input if the data originated from user interaction or external sources. Using `encodeURIComponent` on parameters before generating the URL is insufficient if the URL is later unsafely injected into an HTML context (specifically, missing single-quote escaping allowed breaking out of the `onclick='...'` attribute).
+**Prevention:** Never use `innerHTML` to render dynamic content containing variables, especially URLs in attributes. Always use the DOM API (`document.createElement`) and direct property assignment (`img.src = url`) to ensure the browser strictly parses the data as values, not executable code.
