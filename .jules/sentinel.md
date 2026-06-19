@@ -1,0 +1,4 @@
+## 2024-05-24 - Cross-Site Scripting (XSS) via Dynamic HTML Injection
+**Vulnerability:** The gallery page uses `innerHTML` combined with a template literal to inject `item.url` into the DOM. When a URL contains unescaped single quotes (`'`) followed by JavaScript (e.g., `-alert(1)-`), the inline `onclick` handler `onclick="viewImage('${item.url}')"` is broken, causing arbitrary JavaScript execution.
+**Learning:** Using `innerHTML` with unsanitized data, even if it comes from an internal state like `localStorage` where `encodeURIComponent` was used (which doesn't escape `'`), can lead to XSS.
+**Prevention:** Avoid `innerHTML` for dynamic content generation. Use `document.createElement()` and assign properties (like `.src` and `.onclick`) directly, which automatically handles encoding and prevents execution context breakout.
