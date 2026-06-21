@@ -1,0 +1,4 @@
+## 2024-06-21 - XSS via innerHTML and encodeURIComponent
+**Vulnerability:** XSS vulnerability in `loadHistory` where user-controlled `item.url` was interpolated into an HTML string via template literal and assigned to `innerHTML`. Even though the URL components were encoded elsewhere, `encodeURIComponent` does not escape single quotes, allowing an attacker to inject arbitrary HTML/JS if single quotes are used.
+**Learning:** Never interpolate variables directly into HTML strings for `innerHTML`, even if the string is passed through `encodeURIComponent`. Single quotes are not escaped and can break out of attributes.
+**Prevention:** Use DOM manipulation methods like `document.createElement()` and assign properties directly (e.g., `img.src = item.url`, `img.onclick = ...`) to ensure safe rendering.
