@@ -1,0 +1,5 @@
+## 2024-06-23 - DOM XSS via innerHTML and URL Encoding
+
+**Vulnerability:** A DOM-based Cross-Site Scripting (XSS) vulnerability was found in the `loadHistory` function. User-controlled URLs from `localStorage` were interpolated directly into an `innerHTML` string (`div.innerHTML = \`<img src="${item.url}" onclick="viewImage('${item.url}')">\``). Since the URLs were encoded with `encodeURIComponent` which does NOT escape single quotes (`'`), an attacker could craft a prompt containing `'` to break out of the `onclick` attribute and execute arbitrary JavaScript.
+**Learning:** `encodeURIComponent` is insufficient protection when injecting data into HTML attributes, specifically because it does not encode single quotes (`'`). This allows for attribute breakout attacks when using string interpolation and `innerHTML`.
+**Prevention:** Always use safe DOM APIs (like `document.createElement()`, `element.src = ...`, and `element.onclick = ...`) rather than `innerHTML` when handling dynamic or untrusted data, even if it appears to be partially encoded.
