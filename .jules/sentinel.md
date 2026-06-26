@@ -1,0 +1,4 @@
+## 2024-06-26 - XSS in Image History Rendering
+**Vulnerability:** A DOM-based Cross-Site Scripting (XSS) vulnerability existed in `loadHistory` in `index.html`. Unsanitized user URLs retrieved from `localStorage` were interpolated directly into the `innerHTML` of the gallery grid items, including within an `onclick` attribute.
+**Learning:** `encodeURIComponent` was used when requesting the image URL, but `innerHTML` interpolation of URLs inside quotes (`'${url}'`) does not safely escape single quotes embedded within the URL itself. An attacker could break out of the HTML attribute and execute arbitrary JavaScript.
+**Prevention:** Avoid `innerHTML` for dynamically constructing DOM elements from user input. Always use native DOM APIs (`document.createElement`) and assign properties directly (`img.src = ...`, `img.onclick = ...`), which inherently treat the input as data rather than executable code.
