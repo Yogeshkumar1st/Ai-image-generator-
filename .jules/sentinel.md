@@ -1,0 +1,4 @@
+## 2024-05-24 - [Fix XSS in Gallery History]
+**Vulnerability:** XSS vulnerability when rendering images in the gallery history. Single quotes in the URL injected directly into the HTML string allow escaping the onclick handler string and executing arbitrary Javascript.
+**Learning:** The URL was processed with `encodeURIComponent`, however that does not escape single quotes. Building HTML strings using `innerHTML` and interpolating user input is prone to XSS even if encoded.
+**Prevention:** Use `document.createElement` and direct property assignments instead of string interpolation and `innerHTML`.
