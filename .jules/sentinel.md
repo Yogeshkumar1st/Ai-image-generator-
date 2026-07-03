@@ -1,0 +1,4 @@
+## 2025-01-21 - XSS in loadHistory from encoded URLs
+**Vulnerability:** XSS vulnerability in `loadHistory` caused by injecting URL parameters directly into an HTML `onclick` handler using `innerHTML` template literals.
+**Learning:** `encodeURIComponent` does not escape single quotes (`'`). When rendering URLs dynamically that contain user-provided inputs within attribute contexts, an attacker can break out of the attribute using a single quote.
+**Prevention:** Avoid `innerHTML` for dynamic content containing URL parameters. Use `document.createElement` and direct property assignments (e.g., `img.src`, `img.onclick`) to prevent browser parsing of malicious inputs within attributes.
