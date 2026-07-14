@@ -1,0 +1,5 @@
+## 2024-07-14 - encodeURIComponent Does Not Escape Single Quotes
+
+**Vulnerability:** A Stored Cross-Site Scripting (XSS) vulnerability was found in the application's gallery. `encodeURIComponent` was used to construct URLs, which were then interpolated into `innerHTML` inside single-quoted HTML attributes (`onclick='...'`). Because `encodeURIComponent` does not encode single quotes (`'`), an attacker could break out of the HTML attribute and execute arbitrary JavaScript when the image was clicked.
+**Learning:** `encodeURIComponent` is not a complete defense against XSS when interpolating into HTML, specifically because it leaves single quotes (`'`) unescaped. This allows breaking out of single-quoted attributes.
+**Prevention:** Never use `innerHTML` to build DOM elements from dynamic data, even if it has been partially encoded. Always use `document.createElement` and direct property assignments (like `element.src = url` and `element.onclick = function`) to prevent XSS.
