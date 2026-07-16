@@ -1,0 +1,4 @@
+## 2025-02-28 - XSS via Single Quotes in innerHTML
+**Vulnerability:** The application was vulnerable to XSS due to directly injecting URLs containing user-controlled input (even if URL encoded, if single quotes are present) into an `onclick` attribute string via `innerHTML` without proper escaping of single quotes.
+**Learning:** `encodeURIComponent` does not escape single quotes (`'`). When dynamically generating HTML strings for event handlers (like `onclick='...'`), single quotes in the interpolated variables can break out of the attribute context and allow arbitrary JavaScript execution.
+**Prevention:** Do not use `innerHTML` to interpolate user-controlled variables (especially those ending up in event handlers or attributes). Use `document.createElement` and direct property assignments (e.g., `img.src = url; img.onclick = ...`) which automatically handle correct escaping.
