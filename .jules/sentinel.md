@@ -1,0 +1,4 @@
+## 2024-05-24 - Fix Stored XSS in Gallery
+**Vulnerability:** A stored XSS vulnerability existed in the gallery tab where the `innerHTML` property was used to render `<img>` elements using data directly from `localStorage`, allowing arbitrary JavaScript execution via a crafted URL containing malicious payloads like `')-alert(1)-('`.
+**Learning:** When generating HTML elements dynamically, using `innerHTML` with unsanitized user-controlled data is unsafe, even if the data appears to be a URL, as it can contain characters that break out of the HTML attribute context.
+**Prevention:** Always use safe DOM manipulation methods like `document.createElement` and direct property assignments (e.g., `img.src = ...`, `img.onclick = ...`) instead of `innerHTML` when handling untrusted data, and explicitly escape or sanitize any user-controlled values.
