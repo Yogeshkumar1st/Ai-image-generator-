@@ -1,0 +1,4 @@
+## 2024-05-24 - DOM XSS in Image Gallery
+**Vulnerability:** DOM XSS via `innerHTML` assignment of user-controlled data (`localStorage`) in the image gallery.
+**Learning:** Even internal data sources like `localStorage` must be treated as untrusted. When constructing DOM elements dynamically, injecting user data into attributes using template literals inside `innerHTML` (e.g., `onclick="viewImage('${item.url}')"`) allows an attacker to break out of the attribute using single quotes and execute arbitrary JS.
+**Prevention:** Avoid `innerHTML` for dynamic content. Use `document.createElement()` and assign properties directly (e.g., `img.src = item.url; img.onclick = () => viewImage(item.url);`), which natively escapes content and prevents XSS.
