@@ -622,7 +622,11 @@ emptyMsg.style.display = 'none';
 history.forEach(item => {
 const div = document.createElement('div');
 div.className = 'gallery-item';
-div.innerHTML = `<img src="${item.url}" onclick="viewImage('${item.url}')">`;
+const img = document.createElement('img');
+// 🛡️ Sentinel: Safe element creation to prevent DOM XSS from injected URLs
+img.src = item.url;
+img.onclick = () => viewImage(item.url);
+div.appendChild(img);
 galleryGrid.appendChild(div);
 });
 }
