@@ -1,0 +1,4 @@
+## 2024-05-24 - Cross-Site Scripting (XSS) in LocalStorage History
+**Vulnerability:** XSS vulnerability in `loadHistory()` function via unsafe `innerHTML` injection of URLs stored in `localStorage` which were parsed by `JSON.parse` and used directly in the `src` and `onclick` attributes.
+**Learning:** `localStorage` can be a source of DOM XSS if the stored data is dynamically rendered into the DOM using unsafe methods like `innerHTML`, especially if it contains unescaped URLs used in event handlers.
+**Prevention:** Always use safe DOM manipulation techniques like `document.createElement()`, `element.textContent`, or assign attributes directly via properties (e.g. `img.src = item.url`) rather than injecting dynamic content via `innerHTML`.
