@@ -1,0 +1,4 @@
+## 2024-05-24 - Unescaped Single Quotes in URL leading to DOM XSS
+**Vulnerability:** The application stored user-generated image URLs in `localStorage` and injected them directly into HTML via `innerHTML` and inline `onclick` attributes. Since `encodeURIComponent()` does not escape single quotes, a user's prompt could break out of the single-quoted `onclick` attribute and execute arbitrary JavaScript.
+**Learning:** `encodeURIComponent()` is insufficient for preventing XSS when the encoded value is placed inside a single-quoted HTML attribute (like `onclick='...'`). The browser interprets the unescaped single quote as the end of the attribute.
+**Prevention:** Avoid `innerHTML` with unsanitized data. Use safe DOM manipulation methods such as `document.createElement()` and assign properties directly (`img.src = item.url`, `img.onclick = () => viewImage(item.url)`) which safely handles special characters.
