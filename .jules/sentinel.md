@@ -1,0 +1,4 @@
+## 2024-10-24 - Fix Stored XSS in Image Gallery
+**Vulnerability:** A Stored Cross-Site Scripting (XSS) vulnerability was found in the gallery loading logic. User input encoded with `encodeURIComponent()` was injected directly into an `onclick` HTML attribute via `innerHTML`. Since `encodeURIComponent()` does not escape single quotes (`'`), attackers could break out of the attribute and inject malicious JavaScript.
+**Learning:** `encodeURIComponent()` should not be relied upon for HTML context escaping, especially inside single-quoted attributes, because it does not escape single quotes. Always use secure DOM APIs like `document.createElement()` to prevent HTML injection.
+**Prevention:** Avoid using `innerHTML` with interpolated data. Instead, create DOM elements and set properties (e.g., `img.src = ...`, `img.onclick = ...`) to ensure safe data handling.
