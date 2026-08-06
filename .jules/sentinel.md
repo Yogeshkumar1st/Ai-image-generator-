@@ -1,0 +1,4 @@
+## 2024-05-24 - Single Quote Escape Bypass in encodeURIComponent
+**Vulnerability:** A Stored XSS vulnerability in the gallery tab history rendering. The application relied on `encodeURIComponent()` to sanitize user input in URLs, which were then interpolated into single-quoted `onclick` attributes via `innerHTML`. Since `encodeURIComponent()` does not escape single quotes, this allowed attribute breakout and arbitrary JavaScript execution.
+**Learning:** `encodeURIComponent()` is not sufficient to prevent XSS when user input is injected into single-quoted HTML attributes, because it intentionally leaves single quotes unescaped.
+**Prevention:** Never use `innerHTML` to construct elements with unsanitized or improperly sanitized data. Always use secure DOM APIs like `document.createElement()` and assign properties directly (e.g., `img.src = item.url`), which inherently treat input as data, preventing code execution.
