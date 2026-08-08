@@ -1,0 +1,4 @@
+## 2024-08-08 - XSS via unescaped quotes in innerHTML
+**Vulnerability:** XSS payload was executing because `url` containing double quotes was being directly interpolated into an HTML string using `innerHTML` to create image tags. This allows breaking out of the `src` attribute.
+**Learning:** `encodeURIComponent` does not encode single quotes (and in this specific case, `prompt` input could just contain payloads, but here `localStorage` could be manipulated or other payloads could be crafted). More importantly, directly using `innerHTML` with unsanitized variables, even if parts are seemingly URL-like, is dangerous when it can break out of attributes.
+**Prevention:** Avoid `innerHTML` for dynamic content. Use `document.createElement()` and assign properties directly (like `img.src = item.url`).
