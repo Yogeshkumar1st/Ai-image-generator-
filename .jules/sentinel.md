@@ -1,0 +1,4 @@
+## 2024-05-24 - Stored XSS via localStorage and innerHTML
+**Vulnerability:** XSS vulnerability in `index.html` where unescaped user data (`item.url`) from `localStorage` was injected into the DOM via `innerHTML` and string interpolation within an `onclick` attribute handler.
+**Learning:** Stored XSS can easily occur when relying on `innerHTML` for dynamically building DOM components with data retrieved from `localStorage` if it is not sanitized or when relying on single quotes for attribute values, since they can easily be broken out of if URL decoding occurs or if they're injected directly.
+**Prevention:** Avoid `innerHTML` when handling user-controlled data (even from client-side storage like `localStorage`). Instead, safely construct elements using `document.createElement()`, assign properties directly (like `img.src`), and attach event listeners securely (like `img.onclick = function() { ... }`).
