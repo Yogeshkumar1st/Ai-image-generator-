@@ -1,0 +1,4 @@
+## 2024-05-24 - Single Quote Bypass in encodeURIComponent DOM XSS
+**Vulnerability:** DOM-based XSS was possible in the gallery grid because `encodeURIComponent` does not escape single quotes (`'`). This allowed an attacker to inject a payload like `'-alert(1)-'` into `localStorage` history, which broke out of the `onclick='viewImage('${item.url}')'` attribute assignment when rendered using `innerHTML`.
+**Learning:** JavaScript's `encodeURIComponent()` does not escape single quotes. When concatenating user input directly into single-quoted HTML attributes using `innerHTML`, an attacker can still execute arbitrary code even if the input was previously "encoded".
+**Prevention:** Always use safe DOM manipulation APIs like `document.createElement` and direct property assignment (e.g., `img.src = ...`, `img.onclick = ...`) instead of `innerHTML` when handling dynamic data, especially data that may have originated from user input or external sources.
