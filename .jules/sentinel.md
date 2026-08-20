@@ -1,0 +1,4 @@
+## 2024-05-24 - DOM-based XSS via unescaped single quotes in encodeURIComponent
+**Vulnerability:** The application used `encodeURIComponent` to construct URLs, which were then interpolated into single-quoted HTML attributes (`onclick='...'`). Because `encodeURIComponent` does not encode single quotes, an attacker could break out of the attribute and execute arbitrary JavaScript.
+**Learning:** `encodeURIComponent` is not a complete defense against XSS when interpolating into HTML strings, particularly single-quoted attributes, as it leaves characters like `'`, `(`, and `)` unescaped.
+**Prevention:** Avoid `innerHTML` and string interpolation for DOM manipulation. Instead, use safe APIs like `document.createElement` and direct property assignments (e.g., `img.onclick = ...`).
