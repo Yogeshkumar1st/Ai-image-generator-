@@ -1,0 +1,4 @@
+## 2024-05-24 - DOM-based XSS via encodeURIComponent bypassing single quotes
+**Vulnerability:** A DOM-based XSS existed because `encodeURIComponent` does not escape single quotes (`'`), allowing an attacker to break out of an `onclick` attribute string literal when user input (prompt URL) is injected into `innerHTML`.
+**Learning:** `encodeURIComponent` is not sufficient for sanitizing input embedded in single-quoted HTML attributes. It only makes strings safe for URLs, not HTML.
+**Prevention:** Always use safe DOM manipulation APIs (e.g., `document.createElement`, direct property assignments like `img.onclick`) instead of assigning raw HTML strings to `innerHTML`.
