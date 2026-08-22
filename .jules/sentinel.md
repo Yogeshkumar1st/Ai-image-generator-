@@ -1,0 +1,4 @@
+## 2024-05-24 - Prevent DOM-based XSS in Image Gallery
+**Vulnerability:** DOM-based Cross-Site Scripting (XSS) in `index.html` via `innerHTML` assignment of user-controlled URLs in the gallery history.
+**Learning:** JavaScript's `encodeURIComponent()` does not escape single quotes (`'`). When user-controlled data is injected into single-quoted HTML attributes like `onclick='...'` via string interpolation, it can lead to XSS.
+**Prevention:** Prefer using safe DOM manipulation APIs (e.g., `document.createElement`, direct property assignment like `img.src` and `img.onclick = () => ...`) over `innerHTML` assignments when handling user input.
