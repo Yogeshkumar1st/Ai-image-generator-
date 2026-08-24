@@ -1,0 +1,4 @@
+## 2024-08-24 - DOM-based XSS in Gallery History
+**Vulnerability:** A DOM-based XSS vulnerability existed in `loadHistory()` where user-controlled image URLs from `localStorage` were inserted directly into the DOM using `innerHTML`. Because JavaScript's `encodeURIComponent()` does not escape single quotes (`'`), a crafted payload could break out of the single-quoted `onclick` attribute string and execute arbitrary JavaScript.
+**Learning:** Even if data is URL-encoded, it can still break out of HTML attributes if the encoding doesn't cover the quote characters used in the attribute. `encodeURIComponent` is insufficient for preventing XSS in single-quoted HTML contexts.
+**Prevention:** Always prefer safe DOM manipulation APIs like `document.createElement`, `.src = ...`, and direct event listener attachments (`.onclick = ...` or `addEventListener`) instead of constructing raw HTML strings with `innerHTML`, especially when handling user-controlled or external data.
