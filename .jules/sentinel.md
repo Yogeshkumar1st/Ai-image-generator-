@@ -1,0 +1,4 @@
+## 2025-02-14 - DOM-based XSS via innerHTML Assignment
+**Vulnerability:** The application was assigning unsanitized user input (from localStorage history) directly to the DOM using `innerHTML` with string interpolation. An attacker manipulating the `xhistory` item in localStorage could trigger XSS (e.g. `"><img src=x onerror=alert('XSS')>`).
+**Learning:** Even internal sources like `localStorage` must be treated as untrusted, especially in environments where origins might be shared or if the data is populated by other inputs. Using `innerHTML` with unsanitized data is a high risk for DOM-based XSS.
+**Prevention:** Avoid `innerHTML` when appending elements based on untrusted data. Instead, prefer safe DOM manipulation APIs like `document.createElement`, direct property assignment (`img.src = item.url`), and `addEventListener` (`img.addEventListener('click', ...)`).
