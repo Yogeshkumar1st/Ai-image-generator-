@@ -1,0 +1,4 @@
+## 2024-05-24 - DOM-based XSS via single quote breakout in innerHTML
+**Vulnerability:** A DOM-based XSS vulnerability was found in the gallery grid generation logic where user-controlled URLs are injected into an `onclick` handler string using single quotes via `innerHTML`. The URL is previously encoded using `encodeURIComponent()`, however this function does not encode single quotes ('), allowing an attacker to break out of the string context and execute arbitrary JavaScript.
+**Learning:** Using `innerHTML` with string interpolation is dangerous even if the input appears safely encoded. `encodeURIComponent()` does not encode single quotes, so they can still break out of attribute boundaries defined by single quotes (e.g. `onclick='...'`).
+**Prevention:** Prefer using safe DOM manipulation APIs like `document.createElement()` and assigning properties directly (e.g., `element.onclick = () => viewImage(url)`) instead of building HTML strings.
