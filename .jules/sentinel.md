@@ -1,0 +1,4 @@
+## 2024-05-24 - Prevent DOM-based XSS by using Safe DOM APIs
+**Vulnerability:** The application was vulnerable to DOM-based Cross-Site Scripting (XSS) due to the unsafe assignment of `innerHTML` when rendering the generated image history. The `url` property, which incorporates user input via `encodeURIComponent` (which does not escape single quotes), was interpolated into an inline `onclick` event handler, allowing attackers to break out of the string and execute arbitrary JavaScript.
+**Learning:** Using `encodeURIComponent` does not provide adequate sanitization for injection into single-quoted HTML attributes. Relying on `innerHTML` for dynamic content rendering with user-controlled data is inherently risky.
+**Prevention:** Always prefer safe DOM manipulation APIs, such as `document.createElement` and direct property assignments, over `innerHTML` string concatenation to ensure variables are treated as data, not executable code.
