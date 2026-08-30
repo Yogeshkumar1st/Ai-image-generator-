@@ -1,0 +1,4 @@
+## 2024-05-23 - DOM-based XSS via innerHTML and encodeURIComponent
+**Vulnerability:** DOM-based XSS vulnerability found in the gallery view due to assigning user-controlled input to `innerHTML`. The `encodeURIComponent` function used during prompt generation does not escape single quotes, allowing an attacker to break out of single-quoted HTML attributes like `onclick='...'`.
+**Learning:** `encodeURIComponent()` does not escape single quotes (`'`). When user input encoded with this function is directly embedded into single-quoted attributes via `innerHTML`, XSS payloads can be executed.
+**Prevention:** Always use safe DOM manipulation APIs (e.g., `document.createElement`, direct property assignments like `img.src` and `img.onclick`) over `innerHTML` assignments when dealing with user-controlled data.
