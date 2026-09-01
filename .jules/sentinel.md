@@ -1,0 +1,4 @@
+## 2024-09-01 - DOM-based XSS via innerHTML and unescaped single quotes
+**Vulnerability:** User-controlled URL data saved to localStorage was being inserted into the DOM using `innerHTML` with single-quoted attributes. Since `encodeURIComponent()` (used earlier in the data flow, although not here directly) and standard string interpolation do not escape single quotes, an attacker could craft a URL containing single quotes to break out of the `src` and `onclick` attributes and inject malicious JavaScript payloads.
+**Learning:** Avoid using `innerHTML` with user-supplied data, even if it appears to be a simple URL. Setting properties directly via safe DOM APIs prevents attribute breakout attacks because the browser handles the content safely.
+**Prevention:** Use `document.createElement()` and assign values to properties like `.src`, `.onclick`, or `.textContent` instead of constructing HTML strings with template literals and `innerHTML`.
