@@ -1,0 +1,4 @@
+## 2024-10-24 - [Fix DOM-based XSS in gallery history]
+**Vulnerability:** User prompt input encoded with `encodeURIComponent` does not escape single quotes (`'`). When this URL is loaded from localStorage and injected into `div.innerHTML = \`<img src="${item.url}" onclick="viewImage('${item.url}')">\`;`, an attacker can break out of the single-quoted `onclick` attribute to achieve Cross-Site Scripting (XSS).
+**Learning:** `encodeURIComponent()` does not escape single quotes, making it insufficient for preventing XSS when the encoded string is later interpolated inside a single-quoted HTML attribute via `innerHTML`.
+**Prevention:** Always prefer safe DOM manipulation APIs (e.g., `document.createElement`, `img.src = ...`, `img.onclick = ...`) over string interpolation with `innerHTML` when handling untrusted data, even if it has been partially encoded.
