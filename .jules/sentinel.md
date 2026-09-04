@@ -1,0 +1,4 @@
+## 2024-05-24 - DOM-based XSS via unescaped single quotes in encodeURIComponent
+**Vulnerability:** DOM-based XSS vulnerability found in history grid generation. The application uses `encodeURIComponent` on user input, which doesn't escape single quotes. This allowed the input to break out of single-quoted HTML attributes like `onclick='...'` when injected via `innerHTML`.
+**Learning:** `encodeURIComponent()` does not escape single quotes (`'`). Input encoded with this function can still break out of HTML attributes that are enclosed in single quotes.
+**Prevention:** Prefer using safe DOM manipulation APIs (e.g., `document.createElement`, direct property assignment) over `innerHTML` string assignments for rendering dynamic data.
