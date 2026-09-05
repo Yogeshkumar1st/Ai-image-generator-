@@ -1,0 +1,4 @@
+## 2024-05-24 - DOM XSS via encodeURIComponent in single-quoted attributes
+**Vulnerability:** A DOM-based XSS vulnerability existed in `loadHistory()` where user input encoded with `encodeURIComponent` was interpolated into an `onclick` HTML attribute string wrapped in single quotes.
+**Learning:** JavaScript's `encodeURIComponent()` does not escape single quotes (`'`). When user input encoded with this function is placed inside single-quoted HTML attributes, it can still break out and execute arbitrary JavaScript.
+**Prevention:** Prefer using safe DOM manipulation APIs (e.g., `document.createElement`, direct property assignments like `img.onclick`) over `innerHTML` assignments when inserting dynamic data.
