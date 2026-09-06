@@ -1,0 +1,4 @@
+## 2024-05-24 - DOM XSS via unencoded single quotes in URL
+**Vulnerability:** `encodeURIComponent()` does not escape single quotes, which allowed DOM-based XSS when `item.url` was injected directly into an `onclick='...'` attribute via `innerHTML`.
+**Learning:** Even encoded URLs can break out of single-quoted HTML attributes if the encoding mechanism (like `encodeURIComponent`) doesn't cover all characters.
+**Prevention:** Avoid `innerHTML` for dynamic attributes. Always prefer safe DOM manipulation APIs like `document.createElement()` and direct property assignment (e.g., `img.onclick = ...`).
