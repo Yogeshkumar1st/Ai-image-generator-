@@ -1,0 +1,4 @@
+## 2025-02-18 - encodeURIComponent Does Not Escape Single Quotes
+**Vulnerability:** DOM-based XSS in the gallery tab via `innerHTML` injection, caused by `encodeURIComponent()` failing to escape single quotes (`'`) in the user prompt, allowing payload breakout from `onclick='...'`.
+**Learning:** `encodeURIComponent()` in JavaScript does not escape single quotes (`'`). When user input is encoded this way and placed into single-quoted HTML attributes, it can still break out and execute arbitrary scripts.
+**Prevention:** Always use safe DOM manipulation APIs (e.g., `document.createElement` and direct property assignments) instead of `innerHTML` when handling user-generated data or URLs, even if they have been partially encoded.
