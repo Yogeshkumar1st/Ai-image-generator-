@@ -1,0 +1,4 @@
+## 2025-02-23 - DOM-based XSS via innerHTML and single quotes
+**Vulnerability:** The application was vulnerable to DOM-based XSS because it used `innerHTML` to inject user-provided URLs into an `onclick` attribute enclosed in single quotes. `encodeURIComponent()` was used during generation, but it does not escape single quotes, allowing an attacker to break out of the attribute and execute arbitrary JavaScript.
+**Learning:** `encodeURIComponent()` is not sufficient for escaping data placed inside single-quoted HTML attributes. Furthermore, `innerHTML` should be avoided when constructing DOM elements with user-controlled data.
+**Prevention:** Always use safe DOM manipulation APIs like `document.createElement` and direct property assignments (e.g., `element.src = ...`, `element.onclick = ...`) instead of `innerHTML` when handling user input or external data.
