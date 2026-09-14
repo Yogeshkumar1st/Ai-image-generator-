@@ -1,0 +1,4 @@
+## 2024-05-24 - DOM-based XSS via unsanitized URL in innerHTML
+**Vulnerability:** A DOM-based XSS vulnerability existed because `encodeURIComponent()` does not encode single quotes. When an image URL constructed with user input was rendered via `innerHTML` and interpolated into an `onclick` attribute delimited by single quotes, the user input could break out of the attribute and execute arbitrary JavaScript.
+**Learning:** The assumption that `encodeURIComponent` makes data safe for all HTML contexts is flawed. Specifically, single quotes can break out of single-quoted attribute contexts when using `innerHTML`.
+**Prevention:** Avoid using `innerHTML` for DOM manipulation when dealing with untrusted or partially sanitized data. Instead, use safe DOM APIs like `document.createElement()` and assign properties directly (e.g., `img.src = item.url; img.onclick = () => viewImage(item.url);`).
