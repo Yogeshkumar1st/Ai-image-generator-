@@ -1,0 +1,4 @@
+## 2024-09-15 - DOM-based XSS in Gallery View
+**Vulnerability:** A DOM-based XSS vulnerability was found in the `loadHistory` function where unescaped image URLs from localStorage are directly injected into HTML using `div.innerHTML = \`<img src="${item.url}" onclick="viewImage('${item.url}')">\`;`.
+**Learning:** Injecting data directly into `innerHTML`, especially inside event handlers like `onclick`, is dangerous even if the URL appears to be simple text, because an attacker can inject quotes and execute arbitrary JavaScript when the image is clicked.
+**Prevention:** Avoid using `innerHTML` to construct elements containing user-controllable data. Instead, use safe DOM APIs like `document.createElement` and direct property assignment (e.g., `img.src = item.url`, `img.onclick = () => viewImage(item.url)`).
