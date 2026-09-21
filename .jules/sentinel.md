@@ -1,0 +1,4 @@
+## 2024-05-24 - [DOM XSS in Gallery History]
+**Vulnerability:** DOM XSS was present when rendering history items in the gallery because `innerHTML` was used with user-controlled URLs containing unescaped single quotes (`'`) within an `onclick` attribute.
+**Learning:** `encodeURIComponent()` does not escape single quotes. Even if a URL is encoded, injecting it into an HTML attribute defined with single quotes (e.g., `onclick='...'`) allows an attacker to break out of the attribute and execute arbitrary JavaScript.
+**Prevention:** Avoid `innerHTML` for dynamically generated content based on user input. Use safer DOM manipulation APIs like `document.createElement()` and assign properties directly (e.g., `img.onclick = ...`).
