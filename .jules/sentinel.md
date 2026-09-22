@@ -1,0 +1,4 @@
+## 2024-07-24 - DOM-based XSS in Image History
+**Vulnerability:** The application was vulnerable to DOM-based XSS in the image history rendering logic due to using `innerHTML` with unescaped single quotes from user-generated URLs.
+**Learning:** `encodeURIComponent()` does not escape single quotes (`'`). When user input is placed into single-quoted HTML attributes like `onclick='...'` via `innerHTML`, it can break out of the attribute and execute arbitrary JavaScript.
+**Prevention:** Always use safe DOM manipulation APIs like `document.createElement`, `img.src = ...`, and direct event listener assignment (e.g., `img.onclick = () => ...`) instead of generating HTML strings with `innerHTML`.
