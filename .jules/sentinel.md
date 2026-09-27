@@ -1,0 +1,4 @@
+## 2024-10-24 - DOM-based XSS via encodeURIComponent
+**Vulnerability:** A DOM-based Cross-Site Scripting (XSS) vulnerability was found in the gallery history loading mechanism. User input passed through `encodeURIComponent` was embedded into an `onclick` attribute using `innerHTML`.
+**Learning:** `encodeURIComponent` does not escape single quotes (`'`). When user input containing single quotes is embedded within single-quoted HTML attributes like `onclick='...'`, it allows an attacker to break out of the string context and execute arbitrary JavaScript.
+**Prevention:** Avoid using `innerHTML` for dynamic content rendering. Instead, use safe DOM manipulation APIs such as `document.createElement()` and direct property assignment (e.g., `img.src = url`, `img.onclick = () => viewImage(url)`) to prevent DOM-based XSS.
