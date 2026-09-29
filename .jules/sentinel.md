@@ -1,0 +1,4 @@
+## 2024-05-24 - Fix DOM-based XSS in Gallery View
+**Vulnerability:** A DOM-based XSS vulnerability existed in the `loadHistory()` function. Unsanitized `url` values from `localStorage` were interpolated directly into an `innerHTML` string, allowing attackers to break out of the single-quoted `onclick` attribute using single quotes.
+**Learning:** `encodeURIComponent()` (used when the URL is initially generated) does not escape single quotes (`'`). This means that if the resulting URL is subsequently placed into a single-quoted HTML attribute (like `onclick='...'`), it can be used to execute arbitrary JavaScript.
+**Prevention:** Avoid using string interpolation with `innerHTML` when handling user-controlled data or URLs. Instead, construct DOM elements securely using `document.createElement()` and bind events directly using property assignment (e.g., `img.onclick = () => viewImage(item.url)`).
