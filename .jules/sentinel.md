@@ -1,0 +1,4 @@
+## 2024-10-01 - Fix DOM-based XSS in history loading
+**Vulnerability:** A DOM-based XSS vulnerability existed in `loadHistory()` because user-provided URLs were saved to `localStorage` (via `encodeURIComponent`) and later injected into the DOM using `div.innerHTML = \`<img src="${item.url}" onclick="viewImage('${item.url}')">\``.
+**Learning:** `encodeURIComponent` does not escape single quotes (`'`). This allows an attacker to break out of single-quoted attributes like `onclick='...'` and inject arbitrary JavaScript execution payloads.
+**Prevention:** Avoid `innerHTML` assignments when constructing DOM elements with potentially untrusted data. Prefer safe DOM manipulation APIs like `document.createElement()` and direct property assignments (e.g., `img.src = item.url; img.onclick = () => viewImage(item.url);`), which automatically handle escaping.
