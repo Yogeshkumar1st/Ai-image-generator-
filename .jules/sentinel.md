@@ -1,0 +1,4 @@
+## 2023-10-02 - [DOM-based XSS in Gallery History]
+**Vulnerability:** DOM-based XSS due to unsafe `innerHTML` usage with user-controlled input (prompt URL) in the `loadHistory()` function. `encodeURIComponent` does not escape single quotes, allowing breakout from the `onclick` attribute.
+**Learning:** Even when input is URL-encoded, it can still break out of HTML attributes like `onclick='...'` if single quotes are not escaped. `innerHTML` should be avoided when constructing elements with user input.
+**Prevention:** Use safe DOM manipulation APIs like `document.createElement()`, direct property assignment (`img.src = ...`), and `addEventListener()` instead of `innerHTML` and inline event handlers.
