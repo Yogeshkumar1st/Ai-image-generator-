@@ -1,0 +1,4 @@
+## 2024-05-24 - DOM-based XSS via localStorage in Gallery History
+**Vulnerability:** A DOM-based XSS was found where `encodeURIComponent` does not escape single quotes, allowing an attacker to inject an XSS payload into the image URL. When loaded from `localStorage` in the gallery tab, the URL was assigned directly via `innerHTML` into an `onclick` handler (`<img src="${item.url}" onclick="viewImage('${item.url}')">`), causing the payload to be executed upon clicking the image.
+**Learning:** `encodeURIComponent` does not escape single quotes (`'`). Any user input encoded with this function can still break out of single-quoted HTML attributes like `onclick='...'`.
+**Prevention:** Prefer using safe DOM manipulation APIs (e.g., `document.createElement`, direct property assignment) over `innerHTML` assignments when dealing with user-controlled data.
