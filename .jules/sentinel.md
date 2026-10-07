@@ -1,0 +1,4 @@
+## 2023-10-24 - Prevent DOM-based XSS in Gallery
+**Vulnerability:** A DOM-based XSS vulnerability existed where unescaped single quotes in URLs loaded from localStorage allowed arbitrary JavaScript execution when injected into an innerHTML assignment.
+**Learning:** encodeURIComponent() does not escape single quotes, meaning data encoded with it can still break out of single-quoted HTML attributes like onclick='...'.
+**Prevention:** Prefer using safe DOM manipulation APIs (e.g., document.createElement, direct property assignment) over innerHTML string assignments when handling data bound to user interaction events.
