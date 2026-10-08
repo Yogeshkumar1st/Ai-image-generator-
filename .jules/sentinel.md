@@ -1,0 +1,4 @@
+## 2024-10-08 - DOM-based XSS via innerHTML and unescaped single quotes
+**Vulnerability:** A DOM-based XSS vulnerability existed in `index.html` where user input (prompts) included in generated image URLs was stored in localStorage and later injected directly into the DOM using `innerHTML`. Because `encodeURIComponent` does not escape single quotes, a maliciously crafted prompt could break out of the single-quoted `onclick` attribute in the generated HTML.
+**Learning:** Even when input is URL-encoded, it can still break out of HTML attributes that use the same quote character if the encoding doesn't cover that specific character (like single quotes with `encodeURIComponent`).
+**Prevention:** Prefer safe DOM manipulation APIs like `document.createElement` and direct property assignments (e.g., `img.onclick = ...`) over `innerHTML` to inherently avoid injection risks.
