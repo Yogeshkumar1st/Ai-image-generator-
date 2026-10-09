@@ -1,0 +1,4 @@
+## 2024-05-30 - DOM-based XSS via unescaped quotes in innerHTML
+**Vulnerability:** The application used `innerHTML` to construct HTML elements from user-controlled URLs in the gallery history. Single quotes in the URL were not escaped by `encodeURIComponent()`, allowing an attacker to break out of the `onclick` attribute and execute arbitrary JavaScript.
+**Learning:** Always prefer safe DOM manipulation methods (e.g., `document.createElement`, direct property assignment) over `innerHTML` when handling user input or external data, even if it is partially URL encoded, because URL encoding does not escape all characters relevant to HTML context (like single quotes).
+**Prevention:** Avoid `innerHTML` assignments when constructing DOM elements with dynamic data. Use `document.createElement` and set properties like `src` and event handlers like `onclick` directly.
