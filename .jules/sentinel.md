@@ -1,0 +1,4 @@
+## 2025-02-25 - DOM XSS via encodeURIComponent Bypass
+**Vulnerability:** DOM-based XSS where single quotes in user input bypassed `encodeURIComponent()`, breaking out of single-quoted `onclick` attributes in `innerHTML` templates.
+**Learning:** `encodeURIComponent()` does not escape single quotes (`'`). This creates a subtle XSS vector when its output is injected into single-quoted HTML attributes, even if developers assume the input is safe.
+**Prevention:** Always prefer safe DOM manipulation APIs (like `document.createElement` and direct property assignments like `element.onclick`) over string-based `innerHTML` construction.
