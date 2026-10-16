@@ -1,0 +1,4 @@
+## 2024-10-16 - DOM XSS via unescaped quotes in localStorage
+**Vulnerability:** The application stored image URLs derived from user input in `localStorage` and then loaded them into the DOM using `innerHTML` with string interpolation (`div.innerHTML = \`<img src="${item.url}" onclick="viewImage('${item.url}')">\``). Because `encodeURIComponent` does not escape single quotes (`'`), this permitted DOM-based Cross-Site Scripting (XSS).
+**Learning:** Using `innerHTML` to interpolate data containing URLs derived from user input is dangerous if the URL can contain characters like single quotes, even when the initial input was passed through `encodeURIComponent`.
+**Prevention:** Avoid `innerHTML` for dynamic attributes. Prefer using safe DOM manipulation APIs like `document.createElement()` and assigning properties directly (`img.src = item.url`, `img.onclick = () => ...`).
