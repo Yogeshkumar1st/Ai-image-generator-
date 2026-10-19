@@ -1,0 +1,4 @@
+## 2024-05-24 - DOM-based XSS via innerHTML in JavaScript
+**Vulnerability:** The application was using `innerHTML` to render HTML strings constructed with untrusted user input (image URLs from `localStorage`), which allowed for DOM-based XSS attacks.
+**Learning:** Even if data seems structured (like URLs), injecting it directly into `innerHTML` using string interpolation without proper sanitization can allow attackers to break out of HTML attributes (e.g., using single quotes if the attribute is single-quoted) and execute arbitrary JavaScript. JavaScript's `encodeURIComponent()` does not escape single quotes (`'`).
+**Prevention:** Prefer safe DOM manipulation APIs like `document.createElement`, `element.textContent`, or direct property assignments (e.g., `element.src`) over `innerHTML` when handling dynamic or user-provided data.
