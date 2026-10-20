@@ -1,0 +1,4 @@
+## 2024-05-24 - DOM-Based XSS in Gallery History via innerHTML
+**Vulnerability:** The application was vulnerable to DOM-based XSS when rendering the user's generated image history from `localStorage` using `innerHTML` string interpolation. A malicious URL crafted to escape the single-quoted `onclick` attribute could execute arbitrary JavaScript.
+**Learning:** The `encodeURIComponent` function used earlier in the pipeline does not escape single quotes (`'`). This allowed a payload containing `')alert(1)//` to successfully inject JavaScript into the dynamically constructed HTML string.
+**Prevention:** Avoid `innerHTML` for dynamic content rendering. Prefer using safe DOM manipulation APIs like `document.createElement` and direct property assignments (e.g., `img.src`, `img.onclick`) to eliminate HTML injection risks.
