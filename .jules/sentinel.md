@@ -1,0 +1,4 @@
+## 2025-02-26 - Prevent DOM-based XSS in Gallery View
+**Vulnerability:** The application used `innerHTML` to render image gallery items, injecting user-controlled URLs from `localStorage` directly into an `<img>` tag's `src` and `onclick` attributes. A maliciously crafted URL (e.g., via prompt input saving to history) containing single quotes could break out of the `onclick='viewImage(...)'` attribute and execute arbitrary JavaScript.
+**Learning:** `encodeURIComponent` (used during URL generation) does not escape single quotes (`'`). This allows an attacker to inject payloads like `'-alert('XSS')-'` into single-quoted HTML attributes when the URL is later rendered via `innerHTML`.
+**Prevention:** Always use safe DOM manipulation APIs (e.g., `document.createElement`, direct property assignment like `img.src = ...` and `img.onclick = ...`) over `innerHTML` assignments when handling user-influenced data, even if it has been URL-encoded.
