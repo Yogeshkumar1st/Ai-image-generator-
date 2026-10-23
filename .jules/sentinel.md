@@ -1,0 +1,4 @@
+## 2023-10-23 - DOM-based XSS via Single Quote Escape Bypass
+**Vulnerability:** A Stored DOM-based XSS vulnerability was found in `index.html` where URLs fetched from `localStorage` were inserted directly into an `innerHTML` string using single quotes (e.g., `onclick="viewImage('${url}')"`).
+**Learning:** `encodeURIComponent()` (which the application used before storing the URL) does NOT escape single quotes (`'`). This allows an attacker to inject a single quote in their input, break out of the HTML attribute, and execute arbitrary JavaScript.
+**Prevention:** Avoid constructing HTML elements with `innerHTML` and string interpolation, especially when dealing with user input (even encoded input). Instead, use safe DOM manipulation APIs like `document.createElement()` and direct property assignments (e.g., `img.onclick = () => viewImage(url)`).
