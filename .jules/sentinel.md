@@ -1,0 +1,6 @@
+## 2024-05-24 - DOM-Based XSS in innerHTML
+**Vulnerability:** Found a DOM-based XSS vulnerability in `index.html`. The application retrieves a list of images from `localStorage` ('xhistory') and directly concatenates the `url` property into the `innerHTML` of dynamically created elements for the gallery without proper escaping or sanitization. Specifically, the URL is placed inside a single-quoted HTML attribute `onclick="viewImage('...')"` which allows an attacker to break out with a single quote and execute arbitrary JavaScript when the image is clicked. Note that although the URL is constructed with `encodeURIComponent(prompt)`, `encodeURIComponent` does *not* escape single quotes.
+
+**Learning:** When using `innerHTML`, values retrieved from uncontrolled sources (like `localStorage`, which could be manipulated by other scripts on the same origin or pre-loaded) can lead to XSS if placed in attributes or HTML content. Furthermore, `encodeURIComponent` is insufficient for preventing XSS in single-quoted attributes.
+
+**Prevention:** Avoid `innerHTML` entirely when constructing DOM elements from dynamic data. Use safer DOM APIs like `document.createElement`, setting properties directly (e.g., `img.src = url`), and attaching event listeners directly using `.addEventListener` or setting `.onclick` property to a function.
