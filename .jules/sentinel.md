@@ -1,0 +1,4 @@
+## 2023-11-01 - Prevent DOM-based XSS via innerHTML
+**Vulnerability:** A Cross-Site Scripting (XSS) vulnerability was found where user input (`item.url`) was unsafely injected into the DOM via `div.innerHTML = \`<img src="${item.url}" onclick="viewImage('${item.url}')">\``.
+**Learning:** `encodeURIComponent()` encodes many characters, but it DOES NOT encode single quotes (`'`). When user input is placed inside single-quoted HTML attributes like `onclick='...'`, an attacker can break out of the string using a single quote and inject arbitrary JavaScript.
+**Prevention:** Always use safe DOM manipulation APIs like `document.createElement()`, and set properties directly (e.g., `img.src = item.url`, `img.onclick = () => viewImage(item.url)`) instead of using `innerHTML` with unsanitized or insufficiently sanitized data.
